@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'gatsby';
+import React, { useState, useContext } from 'react';
+import { FirebaseContext } from '../firebase';
+import { Link, navigate } from 'gatsby';
 
 import { FaOpencart, FaAlignRight, FaTimes } from 'react-icons/fa';
 
 import styled from '@emotion/styled';
-import netlifyIdentity from 'netlify-identity-widget';
 
 import MyMenu2 from '../menus/MyMenu2';
 
@@ -137,12 +137,43 @@ const SearchContainerMobile = styled.div`
   }
 `;
 
+const Authentication = styled.div`
+  display: grid;
+  padding: 1rem 2rem;
+  justify-content: flex-end;
+  background: ${props => props.theme.colors.primaryTransparent};
+`;
+
+const LogoutDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const LogoutButton = styled.span`
+  cursor: pointer;
+  padding: 2px 4px;
+  background: ${props => props.theme.colors.primary};
+  text-align: right;
+  border-radius: 4px;
+  color ${props => props.theme.colors.white};
+`;
+
 const NavFashion5 = () => {
-  useEffect(() => {
-    netlifyIdentity.init();
-  }, []);
+  const { firebase, user } = useContext(FirebaseContext);
 
   const [mobileMenuOpen, setMobileMenu] = useState(false);
+
+  const logoutHandler = async () => {
+    try {
+      const res = await firebase.logout();
+      if (res) {
+        console.log('Logout was successful', res);
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('There as a error');
+    }
+  };
 
   const mobileMenuHandler = () => {
     setMobileMenu(prevState => !prevState);
@@ -155,8 +186,8 @@ const NavFashion5 = () => {
         <Logo>
           <LogoLink to="/">
             <i>
-              <LogoSpan2>Fashion</LogoSpan2>
-              <LogoSpan>Two</LogoSpan>
+              <LogoSpan2>Firebase</LogoSpan2>
+              <LogoSpan>Demo</LogoSpan>
             </i>
           </LogoLink>
         </Logo>
@@ -223,6 +254,20 @@ const NavFashion5 = () => {
       <SearchContainerMobile>
         <Search />
       </SearchContainerMobile>
+      {!!user && !!user.email && (
+        <Authentication>
+          Hey {user.email}
+          <LogoutDiv>
+            <LogoutButton onClick={logoutHandler}>Logout</LogoutButton>
+          </LogoutDiv>
+        </Authentication>
+      )}
+
+      {(!user || !user.email) && (
+        <Authentication>
+          <NoStyleLink to="/firebase-example/login"> LOGIN </NoStyleLink>
+        </Authentication>
+      )}
     </>
   );
 };

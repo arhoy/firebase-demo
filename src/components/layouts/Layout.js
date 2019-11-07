@@ -1,6 +1,6 @@
 import React from 'react';
 import { Global, css } from '@emotion/core';
-import NavFashion3 from '../navigation/NavFashion3';
+import NavFashion5 from '../navigation/NavFashion5';
 import { ThemeProvider } from 'emotion-theming';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
@@ -122,7 +122,7 @@ const Layout = ({ children, full }) => {
         <ThemeProvider theme={theme}>
           <Div>
             <FullNavLayout>
-              <NavFashion3 />
+              <NavFashion5 />
             </FullNavLayout>
             <MainFull>{children}</MainFull>
             <FullFooterLayout>
@@ -134,7 +134,7 @@ const Layout = ({ children, full }) => {
         <ThemeProvider theme={theme}>
           <DivFixed>
             <NavLayout>
-              <NavFashion3 />
+              <NavFashion5 />
             </NavLayout>
             <Main>{children}</Main>
             <FooterLayout>

@@ -23,6 +23,11 @@ exports.createPages = async ({ actions, graphql }) => {
           productSlug
         }
       }
+      allBook {
+        nodes {
+          slug
+        }
+      }
     }
   `);
 
@@ -37,7 +42,7 @@ exports.createPages = async ({ actions, graphql }) => {
     });
   });
 
-  // create page for each bag product and list them all in /bags
+  // create page for each bag product and list them all in /products
   data.allBags.nodes.forEach(item => {
     createPage({
       path: `products/${item.productSlug}`,
@@ -48,7 +53,7 @@ exports.createPages = async ({ actions, graphql }) => {
     });
   });
 
-  // create page for each pants product and list them all in /pants
+  // create page for each pants product and list them all in /products
   data.allPants.nodes.forEach(item => {
     createPage({
       path: `products/${item.productSlug}`,
@@ -59,7 +64,7 @@ exports.createPages = async ({ actions, graphql }) => {
     });
   });
 
-  // create page for each shoes product and list them all in /shoes
+  // create page for each shoes product and list them all in /products
   data.allShoes.nodes.forEach(item => {
     createPage({
       path: `products/${item.productSlug}`,
@@ -69,21 +74,17 @@ exports.createPages = async ({ actions, graphql }) => {
       },
     });
   });
-  // mapbox to work
-  exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-    if (stage === 'build-html') {
-      actions.setWebpackConfig({
-        module: {
-          rules: [
-            {
-              test: /mapbox-gl/,
-              use: loaders.null(),
-            },
-          ],
-        },
-      });
-    }
-  };
+
+  // create page for each book in FireStore and list them all inside the /books
+  data.allBook.nodes.forEach(book => {
+    createPage({
+      path: `books/${book.slug}`,
+      component: path.resolve('./src/templates/Book.js'),
+      context: {
+        slug: book.slug,
+      },
+    });
+  });
 
   // blog template w/ pagination
   // const posts = data.posts.nodes;

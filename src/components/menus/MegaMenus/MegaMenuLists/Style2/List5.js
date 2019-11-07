@@ -21,6 +21,9 @@ const List5 = () => {
           <MegaMenuSpan spanColor="primary">New</MegaMenuSpan>
         </MegaMenuLi>
         <MegaMenuLi>
+          <MegaMenuLink to="/firebase-example/home">FireBase</MegaMenuLink>
+        </MegaMenuLi>
+        <MegaMenuLi>
           <MegaMenuLink to="/examples/mapbox-examples">MapBox</MegaMenuLink>
         </MegaMenuLi>
         <MegaMenuLi>

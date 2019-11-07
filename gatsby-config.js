@@ -113,5 +113,44 @@ module.exports = {
         // enableImprovedAccessibility: false // Optional. Sets aria-label attribute on pop-up icon for screen readers. Defaults to true
       },
     },
+    {
+      resolve: `gatsby-plugin-remote-images`,
+      options: {
+        nodeType: 'Book',
+        imagePath: 'imageUrl',
+      },
+    },
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/components/layouts/HOL.js`),
+      },
+    },
+    {
+      resolve: 'gatsby-firesource',
+      options: {
+        credential: require('./firebase.json'),
+        types: [
+          {
+            type: 'Book',
+            collection: 'books',
+            map: doc => ({
+              title: doc.title,
+              slug: doc.slug,
+              summary: doc.summary,
+              imageUrl: doc.imageUrl,
+              author___NODE: doc.author.id,
+            }),
+          },
+          {
+            type: 'Author',
+            collection: 'authors',
+            map: doc => ({
+              name: doc.name,
+            }),
+          },
+        ],
+      },
+    },
   ],
 };
