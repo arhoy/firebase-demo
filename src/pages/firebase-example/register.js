@@ -15,6 +15,7 @@ const registerPage = () => {
   const { firebase } = useContext(FirebaseContext);
 
   const [formValue, setFormValue] = useState({
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -27,6 +28,7 @@ const registerPage = () => {
     if (formValue.password === formValue.confirmPassword) {
       try {
         await firebase.register({
+          username: formValue.username,
           email: formValue.email,
           password: formValue.password,
         });
@@ -61,6 +63,15 @@ const registerPage = () => {
         <SectionGrey>
           <H2> REGISTER </H2>
           <FormDiv onSubmit={submitHandler}>
+            <input
+              name="username"
+              value={formValue.username}
+              onChange={handleInputChange}
+              placeholder="username"
+              type="text"
+              required
+              minLength={4}
+            />
             <input
               name="email"
               value={formValue.email}

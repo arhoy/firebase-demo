@@ -256,7 +256,7 @@ const NavFashion5 = () => {
       </SearchContainerMobile>
       {!!user && !!user.email && (
         <Authentication>
-          Hey {user.email}
+          Hey {user.username || user.email}
           <LogoutDiv>
             <LogoutButton onClick={logoutHandler}>Logout</LogoutButton>
           </LogoutDiv>
