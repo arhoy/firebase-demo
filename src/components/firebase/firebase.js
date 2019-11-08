@@ -40,6 +40,15 @@ class Firebase {
       .where('userId', '==', userId)
       .get();
   }
+
+  subscribeToBookComments({ bookId, mySnapshot }) {
+    const bookRef = this.db.collection('books').doc(bookId);
+
+    return this.db
+      .collection('comments')
+      .where('book', '==', bookRef)
+      .onSnapshot(mySnapshot);
+  }
 }
 
 let firebaseInstance;
